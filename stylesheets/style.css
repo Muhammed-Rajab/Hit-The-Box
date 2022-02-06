@@ -40,6 +40,8 @@ body{
     height: 450px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     border-radius: 4px;
     box-sizing: content-box;
     border: 1px solid rgba(94, 94, 94, 0.5);
@@ -92,4 +94,9 @@ body{
 }
 .hard{
     background-color: rgb(255, 15, 87) !important;
+}
+
+.start-message{
+    align-self: center;
+    color: rgb(138, 138, 138);
 }

@@ -4,16 +4,9 @@ const log = console.log;
 /* Game starts here */
 function startGame(){
 
-    /*
-        Game logic:
-            Starts with a mole at any random grid
-            Clicks on mole: score++
-            Click on something else: missed++
-            Difficulty increases as score increases
-    */
-
     /* QUERY SELECTORS */
     const grid = document.querySelector("#grid");
+    const moleHoles = grid.querySelectorAll('.mole-holes');
     const scoreText = document.querySelector(".score-text");
     const missedText = document.querySelector(".missed-text");
     const difficultySpan = document.querySelector(".difficulty-span");
@@ -27,29 +20,27 @@ function startGame(){
     let   difficulty = "easy";
     let   clickedOnce = false;
 
-    const HARD_LEVEL = 20;
-    const MEDIUM_LEVEL = 15;
+    const HARD_LEVEL = 10;
+    const MEDIUM_LEVEL = 5;
 
     /* Update game speed */
     function updateGameSpeed(){
-        if (score === MEDIUM_LEVEL){
-            log("Change in speed")
+        
+        if (score > MEDIUM_LEVEL){
             clearInterval(gameInterval);
             currentSpeed -= 0.25
             gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
-        } else if (score === HARD_LEVEL){
-            log("Change in speed")
+        }
+            
+        if (score > HARD_LEVEL){               
             clearInterval(gameInterval);
             currentSpeed -= 0.2
             gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
         }
-        return;
     };
 
     /* Change color with score */
-    function changeBannerColor(index){
-        const moleHoles = grid.querySelectorAll('.mole-holes');
-        const mole = moleHoles[index];
+    function changeColor(mole){
 
         const isActive = mole.classList.contains('active-mole') ;
 
@@ -60,25 +51,17 @@ function startGame(){
         };
 
                 
-        if (score > 10) difficulty = "medium";
+        if (score > MEDIUM_LEVEL) difficulty = "medium";
         
-        if(score > 20) difficulty = "hard";
+        if(score > HARD_LEVEL) difficulty = "hard";
         
         difficultySpan.classList.add(difficulty);
         difficultySpan.textContent = difficulty;
-        updateGameSpeed();
     };
     /*  */
 
     /* Function to randomly set a mole as active */
-    function setRandomActiveMole(){
-        
-        clickedOnce = false;
-
-        changeBannerColor(activeMole);
-
-        const moleHoles = grid.querySelectorAll('.mole-holes');
-
+    function setNewRandomActiveMole(moleHoles){
         let randIdx = Math.floor(Math.random() * 9);
         
         while (randIdx === activeMole){
@@ -89,6 +72,18 @@ function startGame(){
 
         moleHoles[randIdx].classList.add("active-mole");
         moleHoles[randIdx].classList.add(difficulty);
+    };
+
+    function setRandomActiveMole(){
+        
+        clickedOnce = false;
+        
+        const moleHoles = grid.querySelectorAll('.mole-holes');
+        const mole = moleHoles[activeMole];
+
+        changeColor(mole);
+        updateGameSpeed();
+        setNewRandomActiveMole(moleHoles);
     };
 
     /* Function to check whether clicked hole has mole */
@@ -121,8 +116,12 @@ function startGame(){
         };
         setRandomActiveMole();
     };
-    generateGrid(9);
-    gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
+    
+    setTimeout(()=>{
+        document.querySelector('.start-message').remove();
+        generateGrid(9);
+        gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
+    }, 1000 * 3);
 };
 
 window.addEventListener('load', startGame);
