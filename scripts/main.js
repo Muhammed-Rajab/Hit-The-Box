@@ -26,13 +26,13 @@ function startGame(){
     /* Update game speed */
     function updateGameSpeed(){
         
-        if (score > MEDIUM_LEVEL){
+        if (score === MEDIUM_LEVEL){
             clearInterval(gameInterval);
             currentSpeed -= 0.25
             gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
         }
             
-        if (score > HARD_LEVEL){               
+        if (score === HARD_LEVEL){               
             clearInterval(gameInterval);
             currentSpeed -= 0.2
             gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
