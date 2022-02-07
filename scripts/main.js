@@ -6,35 +6,36 @@ function startGame(){
 
     /* QUERY SELECTORS */
     const grid = document.querySelector("#grid");
-    const moleHoles = grid.querySelectorAll('.mole-holes');
     const scoreText = document.querySelector(".score-text");
     const missedText = document.querySelector(".missed-text");
     const difficultySpan = document.querySelector(".difficulty-span");
     
     /* Variables */ 
-    let   score = 0;
-    let   missed = 0;
-    let   gameInterval;
-    let   activeMole = 0;
-    let   currentSpeed = 1;
-    let   difficulty = "easy";
-    let   clickedOnce = false;
+    let score = 0;
+    let missed = 0;
+    let gameInterval;
+    let activeMole = 0;
+    let currentSpeed = 1;
+    
+    const HARD_LEVEL = 10+1;
+    const MEDIUM_LEVEL = 5+1;
 
-    const HARD_LEVEL = 10;
-    const MEDIUM_LEVEL = 5;
+    let difficulty = "easy";
+    let clickedOnce = false;
+
 
     /* Update game speed */
     function updateGameSpeed(){
         
         if (score === MEDIUM_LEVEL){
             clearInterval(gameInterval);
-            currentSpeed -= 0.25
+            currentSpeed = 0.75
             gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
         }
             
         if (score === HARD_LEVEL){               
             clearInterval(gameInterval);
-            currentSpeed -= 0.2
+            currentSpeed = 0.55;
             gameInterval = setInterval(setRandomActiveMole, 1000 * currentSpeed);
         }
     };
@@ -51,9 +52,9 @@ function startGame(){
         };
 
                 
-        if (score > MEDIUM_LEVEL) difficulty = "medium";
+        if (score === MEDIUM_LEVEL) difficulty = "medium";
         
-        if(score > HARD_LEVEL) difficulty = "hard";
+        if(score === HARD_LEVEL) difficulty = "hard";
         
         difficultySpan.classList.add(difficulty);
         difficultySpan.textContent = difficulty;
