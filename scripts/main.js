@@ -17,8 +17,8 @@ function startGame(){
     let activeMole = 0;
     let currentSpeed = 1;
     
-    const HARD_LEVEL = 10+1;
-    const MEDIUM_LEVEL = 5+1;
+    const HARD_LEVEL = 51;
+    const MEDIUM_LEVEL = 26;
 
     let difficulty = "easy";
     let clickedOnce = false;
